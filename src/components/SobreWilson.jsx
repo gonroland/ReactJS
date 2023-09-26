@@ -9,7 +9,7 @@ const SobreWilson = () => {
           <p>
             Wilson es una reconocida marca de artículos deportivos con una
             larga historia en la fabricación de equipos deportivos de alta
-            calidad. Fundada en [Año de Fundación], Wilson se ha convertido en
+            calidad. Fundada en 1913, Wilson se ha convertido en
             una de las marcas más confiables y respetadas en el mundo del
             deporte.
           </p>
