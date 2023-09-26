@@ -45,7 +45,7 @@ const ItemListDetail = () => {
         <button onClick={handleRemoveFromCart} className="btn btn-danger">
           Quitar del carrito
         </button>
-        <Link to="/">
+        <Link to="/product">
           <button className="btn btn-secondary">Volver</button>
         </Link>
       </div>

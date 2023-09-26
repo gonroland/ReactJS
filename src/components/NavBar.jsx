@@ -35,7 +35,7 @@ const NavBar = ({ itemCount }) => {
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ml-auto">
             <li className="nav-item">
-              <Link to="/" style={linkStyle}>Productos</Link>
+              <Link to="/product" style={linkStyle}>Productos</Link>
             </li>
             <li className="nav-item">
             <Link to="/sobre" style={linkStyle}>Sobre Wilson</Link>
