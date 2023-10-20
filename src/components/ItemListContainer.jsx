@@ -1,25 +1,35 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import blade from '../assets/blade.jpg'
-import burn from '../assets/burn.jpg'
-import prostaff from '../assets/prostaff.jpg'
-import ultra from '../assets/ultra.jpg'
-
-const products = [
-  { id: 'blade', name: 'Raqueta Wilson Blade', image: blade },
-  { id: 'burn', name: 'Raqueta Wilson Burn', image: burn },
-  { id: 'prostaff', name: 'Raqueta Wilson Pro Staff', image: prostaff },
-  { id: 'ultra', name: 'Raqueta Wilson Ultra', image: ultra },
-];
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import firestore from '../firebase'
+import { collection, getDocs } from 'firebase/firestore'
 
 const ItemListContainer = () => {
+  const [products, setProducts] = useState([])
+
+  useEffect(() => {
+    //const firestore = firebase.firestore()
+    const productsCollection = collection(firestore, "/product")
+    
+    getDocs(productsCollection)
+      .then((querySnapshot) => {
+        const productData = []
+        querySnapshot.forEach((doc) => {
+          productData.push({ id: doc.id, ...doc.data() })
+        })
+        setProducts(productData)
+      })
+      .catch((error) => {
+        console.error('Error al obtener los productos:', error)
+      })
+  }, [])
+
   return (
     <div className="row">
       {products.map((product) => (
         <div className="col-md-3" key={product.id}>
           <div className="card">
             <img
-              src={product.image}
+              src={`src/assets/${product.image}`}
               className="card-img-top"
               alt={product.name}
             />
@@ -33,7 +43,7 @@ const ItemListContainer = () => {
         </div>
       ))}
     </div>
-  );
-};
+  )
+}
 
 export default ItemListContainer

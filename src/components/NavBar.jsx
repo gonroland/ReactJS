@@ -1,14 +1,14 @@
 import React from 'react';
-import { Link } from 'react-router-dom'
-import CartWidget from './CartWidget'
-import wilsonLogo from '../assets/wilson-logo.png'
+import { Link } from 'react-router-dom';
+import CartWidget from './CartWidget';
+import wilsonLogo from '../assets/wilson-logo.png';
 
 const NavBar = ({ itemCount }) => {
   const linkStyle = {
     textDecoration: 'none',
     color: 'inherit',
     margin: '0 10px',
-  }
+  };
 
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light fixed-top">
@@ -17,15 +17,14 @@ const NavBar = ({ itemCount }) => {
           <img
             src={wilsonLogo}
             alt="Wilson Logo"
-            style={{ maxWidth: '150px', maxHeight: '50px', margin: '0 50px'}}
+            style={{ maxWidth: '150px', maxHeight: '50px', margin: '0 50px' }}
           />
-          Wilson Store Argentina
         </Link>
         <button
           className="navbar-toggler"
           type="button"
-          data-toggle="collapse"
-          data-target="#navbarNav"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
           aria-controls="navbarNav"
           aria-expanded="false"
           aria-label="Toggle navigation"
@@ -33,15 +32,21 @@ const NavBar = ({ itemCount }) => {
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className="collapse navbar-collapse" id="navbarNav">
-          <ul className="navbar-nav ml-auto">
+          <ul className="navbar-nav ms-auto">
             <li className="nav-item">
-              <Link to="/product" style={linkStyle}>Productos</Link>
+              <Link to="/product" style={linkStyle} className="nav-link">
+                Productos
+              </Link>
             </li>
             <li className="nav-item">
-            <Link to="/sobre" style={linkStyle}>Sobre Wilson</Link>
+              <Link to="/sobre" style={linkStyle} className="nav-link">
+                Sobre Wilson
+              </Link>
             </li>
             <li className="nav-item">
-              <CartWidget itemCount={itemCount} />
+              <Link to="/carrito" style={linkStyle} className="nav-link">
+                <CartWidget />
+              </Link>
             </li>
           </ul>
         </div>
@@ -50,4 +55,4 @@ const NavBar = ({ itemCount }) => {
   );
 };
 
-export default NavBar
+export default NavBar;
