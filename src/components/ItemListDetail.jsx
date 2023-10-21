@@ -2,16 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import firestore from '../firebase';
 import { doc, getDoc } from 'firebase/firestore';
+import { useCart } from './CartContext';
 
 const ItemListDetail = () => {
-  const { id } = useParams()
-  const [product, setProduct] = useState(null)
-  const [quantity, setQuantity] = useState(1)
-  const [cartCount, setCartCount] = useState(0)
+  const { id } = useParams();
+  const { addToCart } = useCart();
+  const [product, setProduct] = useState(null);
+  const [quantity, setQuantity] = useState(1);
 
   const handleQuantityChange = (event) => {
-    const newQuantity = parseInt(event.target.value, 10)
-    setQuantity(newQuantity)
+    const newQuantity = parseInt(event.target.value, 10);
+    setQuantity(newQuantity);
   }
 
   const handleAddToCart = () => {
@@ -20,13 +21,11 @@ const ItemListDetail = () => {
       quantity: quantity,
     }
 
+    addToCart(cartItem)
+
     const existingCart = JSON.parse(localStorage.getItem('cart')) || []
     const updatedCart = [...existingCart, cartItem]
-
     localStorage.setItem('cart', JSON.stringify(updatedCart))
-
-    const updatedCartCount = updatedCart.reduce((total, item) => total + item.quantity, 0)
-    setCartCount(updatedCartCount)
   }
 
   useEffect(() => {
@@ -44,10 +43,6 @@ const ItemListDetail = () => {
       .catch((error) => {
         console.error('Error al obtener el producto:', error)
       })
-
-    const existingCart = JSON.parse(localStorage.getItem('cart')) || []
-    const cartCount = existingCart.reduce((total, item) => total + item.quantity, 0)
-    setCartCount(cartCount)
   }, [id])
 
   if (product === null) {
@@ -55,24 +50,27 @@ const ItemListDetail = () => {
   }
 
   return (
-    <div className="row">
-      <div className="col-md-6">
-        <img src={`/src/assets/${product.image}`} alt={product.name} className="img-fluid" />
-      </div>
-      <div className="col-md-6">
-        <h2>{product.name}</h2>
-        <div className="form-group">
-          <label>Cantidad:</label>
-          <input
-            type="number"
-            value={quantity}
-            onChange={handleQuantityChange}
-            className="form-control"
-          />
+    <div className="container mt-4">
+      <div className="row">
+        <div className="col-md-6">
+          <img src={`/src/assets/${product.image}`} alt={product.name} className="img-fluid" />
         </div>
-        <button onClick={handleAddToCart} className="btn btn-primary">
-          Agregar al carrito
-        </button>
+        <div className="col-md-6">
+          <h2>{product.name}</h2>
+          <p>{product.data}</p>
+          <div className="form-group">
+            <label>Cantidad:</label>
+            <input
+              type="number"
+              value={quantity}
+              onChange={handleQuantityChange}
+              className="form-control"
+            />
+          </div>
+          <button onClick={handleAddToCart} className="btn btn-primary">
+            Agregar al carrito
+          </button>
+        </div>
       </div>
     </div>
   )

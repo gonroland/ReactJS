@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const CartItemsList = () => {
   const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
@@ -6,17 +7,18 @@ const CartItemsList = () => {
   const handleRemoveFromCart = (index) => {
     const updatedCart = [...cartItems];
     const productIndex = updatedCart.findIndex((item, i) => i === index);
-
+  
     if (productIndex !== -1) {
-      updatedCart[productIndex].quantity -= 1;
-      if (updatedCart[productIndex].quantity <= 0) {
+      if (updatedCart[productIndex].quantity > 1) {
+        updatedCart[productIndex].quantity -= 1;
+      } else {
         updatedCart.splice(productIndex, 1);
       }
     }
-
+  
     localStorage.setItem('cart', JSON.stringify(updatedCart));
     window.location.reload();
-  };
+  }  
 
   return (
     <div className="container mt-4">
@@ -43,7 +45,9 @@ const CartItemsList = () => {
         ))}
       </ul>
       <h3 className="mt-4">Cantidad Total: {cartItems.reduce((total, item) => total + item.quantity, 0)}</h3>
-      <button className="btn btn-primary mt-4">Checkout</button>
+      <button className="btn btn-primary mt-4">
+        <Link to="/checkout" className="nav-link">Checkout</Link>
+      </button>
     </div>
   );
 };
